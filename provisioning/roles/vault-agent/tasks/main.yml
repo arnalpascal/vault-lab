@@ -1,0 +1,14 @@
+---
+- name: Install packages before vault
+  package: 
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - wget
+    - unzip
+
+- name: vault install
+  unarchive:
+    src: https://releases.hashicorp.com/vault/1.6.2/vault_1.6.2_linux_amd64.zip
+    dest: /usr/bin
+    remote_src: True

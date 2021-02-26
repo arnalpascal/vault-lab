@@ -1,0 +1,7 @@
+---
+- name: Configure Vault VM
+  hosts: all
+  roles:
+    - podman
+    - vault-agent
+    - terraform

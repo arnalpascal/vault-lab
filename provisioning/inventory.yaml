@@ -1,0 +1,7 @@
+---
+all:
+  hosts:
+    vault:
+      ansible_ssh_user: vagrant
+      ansible_ssh_password: vagrant
+      ansible_become: true

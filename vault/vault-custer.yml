@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault-deployment
+  labels:
+    app: vault
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vault
+  template:
+    metadata:
+      labels:
+        app: vault
+    spec:
+      containers:
+      - name: vault
+        image: docker.io/hashicorp/vault:1.6.2
+        args: ["server", "-dev", "-dev-root-token-id=secrettoken"]
+        env:
+          - name: "VAULT_DISABLE_MLOCK"
+            value: "true"
+          - name: "SKIP_CHOWN"
+            value: "true"
+          - name: "SKIP_SETCAP"
+            value: "true"
+        ports:
+          - containerPort: 8200
+            protocol: TCP
+            hostPort: 8200
