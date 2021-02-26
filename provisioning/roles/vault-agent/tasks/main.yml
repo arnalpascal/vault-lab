@@ -6,6 +6,8 @@
   loop:
     - wget
     - unzip
+    - jq
+    - openssl
 
 - name: vault install
   unarchive:
