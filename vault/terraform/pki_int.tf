@@ -1,13 +1,14 @@
-resource "vault_pki_secret_backend" "pki_int" {
+resource "vault_mount" "pki_int" {
   path                      = "pki-int"
+  type                      = "pki"
   default_lease_ttl_seconds = 3600
   max_lease_ttl_seconds     = 43800
 }
 
 resource "vault_pki_secret_backend_intermediate_cert_request" "pki_int" {
-  depends_on = [ vault_pki_secret_backend.pki_int ]
+  depends_on = [ vault_mount.pki_int ]
 
-  backend = vault_pki_secret_backend.pki_int.path
+  backend = vault_mount.pki_int.path
 
   type        = "internal"
   common_name = "vault-lab.test"
@@ -22,7 +23,7 @@ resource "vault_pki_secret_backend_intermediate_cert_request" "pki_int" {
 resource "vault_pki_secret_backend_root_sign_intermediate" "root_pki_int" {
   depends_on = [ vault_pki_secret_backend_intermediate_cert_request.pki_int ]
 
-  backend = vault_pki_secret_backend.pki_root.path
+  backend = vault_mount.pki_root.path
 
   csr                  = vault_pki_secret_backend_intermediate_cert_request.pki_int.csr
   common_name          = "Vault lab Intermediate CA"
@@ -34,20 +35,20 @@ resource "vault_pki_secret_backend_root_sign_intermediate" "root_pki_int" {
 }
 
 resource "vault_pki_secret_backend_intermediate_set_signed" "pki_root_pki_int" { 
-  backend = vault_pki_secret_backend.pki_int.path
+  backend = vault_mount.pki_int.path
 
   certificate = "${vault_pki_secret_backend_root_sign_intermediate.root_pki_int.certificate}\n${vault_pki_secret_backend_root_cert.pki_root.certificate}"
 }
 
 resource "vault_pki_secret_backend_config_urls" "pki_int_config_urls" {
-  backend = vault_pki_secret_backend.pki_int.path
+  backend = vault_mount.pki_int.path
 
   issuing_certificates    = ["http://127.0.0.1:8200/v1/pki-int/ca"]
   crl_distribution_points = ["http://127.0.0.1:8200/v1/pki-int/crl"]
 }
 
 resource "vault_pki_secret_backend_role" "pki_int_role" {
-  backend = vault_pki_secret_backend.pki_int.path
+  backend = vault_mount.pki_int.path
 
   name    = "pki-int-role"
 
