@@ -3,24 +3,21 @@
 Start a Vault lab with podman on fedora.
 Go to /vagrant and start vault with
 ```
-podman play kube vault-cluster.yml
+./vault-lab.sh
 ```
+This lab start a couple of Vault server :
+1. One Vault server that generate and infra PKI, i.e., PKI for others Vault servers
+1. One Vault transit for auto unseal a cluster
+1. Three Vault servers with embedded raft storage that compose one cluster
 
-Set Vault environment variables :
-```
-export VAULT_ADDR=http://localhost:8200
-export VAULT_TOKEN=secrettoken
-```
+The cluster define one PKI with a root and a intermediate CA.
 
-Next go to /vagrant/terraform and initialize PKI
+To generate certificate / private key :
+1. Source the cluster environment variable file 
 ```
-terraform init
-terraform validate
-terraform plan -out=tfplan
-terraform apply tfplan
+. cluster/vault-cluster.env
 ```
-
-Use Vault to generate private keys and certficates
+1. Use Vault to generate private keys and certficates
 ```
 vault write -format=json pki-int/issue/pki-int-role common_name=test.org sans=other.org ip_sans=10.0.0.1
 ```

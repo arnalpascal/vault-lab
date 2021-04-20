@@ -43,8 +43,8 @@ resource "vault_pki_secret_backend_intermediate_set_signed" "pki_root_pki_int" {
 resource "vault_pki_secret_backend_config_urls" "pki_int_config_urls" {
   backend = vault_mount.pki_int.path
 
-  issuing_certificates    = ["http://127.0.0.1:8200/v1/pki-int/ca"]
-  crl_distribution_points = ["http://127.0.0.1:8200/v1/pki-int/crl"]
+  issuing_certificates    = ["https://vault:8210/v1/pki-int/ca"]
+  crl_distribution_points = ["https://vault:8210/v1/pki-int/crl"]
 }
 
 resource "vault_pki_secret_backend_role" "pki_int_role" {

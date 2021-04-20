@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault-deployment-transit
+  labels:
+    app: vault-deployment-transit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vault-transit
+  template:
+    metadata:
+      labels:
+        app: vault-transit
+    spec:
+      containers:
+      - name: vault-transit
+        image: docker.io/hashicorp/vault:1.6.2
+        args: ["server", "-config", "/transit/vault-transit.hcl"]
+        env:
+          - name: "VAULT_DISABLE_MLOCK"
+            value: "true"
+          - name: "SKIP_CHOWN"
+            value: "true"
+          - name: "SKIP_SETCAP"
+            value: "true"
+        ports:
+          - containerPort: 8200
+            protocol: TCP
+            hostPort: 8200
+        securityContext:
+          seLinuxOptions:
+            level: "s0"
+        volumeMounts:
+        - mountPath: /transit
+          name: volume-vault-transit
+      volumes:
+      - name: volume-vault-transit
+        hostPath: 
+          path: /vagrant/transit/vault_transit
+          type: Directory
