@@ -23,6 +23,6 @@ resource "vault_pki_secret_backend_root_cert" "pki_root" {
 resource "vault_pki_secret_backend_config_urls" "pki_root_config_urls" {
   backend                 = vault_mount.pki_root.path
 
-  issuing_certificates    = ["https://vault:8210/v1/pki-root/ca"]
-  crl_distribution_points = ["https://vault:8210/v1/pki-root/crl"]
+  issuing_certificates    = ["https://vault:8443/v1/pki-root/ca"]
+  crl_distribution_points = ["https://vault:8443/v1/pki-root/crl"]
 }
