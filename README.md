@@ -6,7 +6,7 @@ Go to /vagrant and start vault with
 ./vault-lab.sh
 ```
 This lab start a couple of Vault server :
-1. One Vault server that generate and infra PKI, i.e., PKI for others Vault servers
+1. One Vault server that generate one infra PKI, i.e., PKI for others Vault servers
 1. One Vault transit for auto unseal a cluster
 1. Three Vault servers with embedded raft storage that compose one cluster
 
