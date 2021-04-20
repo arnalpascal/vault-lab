@@ -25,9 +25,12 @@ chmod 777 $VAULT_CLUSTER_NODE_3_DATA_PATH
 chcon -Rt svirt_sandbox_file_t $VAULT_CLUSTER_NODE_3_DATA_PATH
 chcon -Rt svirt_sandbox_file_t $VAULT_CLUSTER_NODE_3_PATH
 
+chcon -Rt svirt_sandbox_file_t $VAULT_CLUSTER_PATH
+
 podman play kube $VAULT_CLUSTER_PATH/vault-cluster-node-1.yml
 podman play kube $VAULT_CLUSTER_PATH/vault-cluster-node-2.yml
 podman play kube $VAULT_CLUSTER_PATH/vault-cluster-node-3.yml
+podman play kube $VAULT_CLUSTER_PATH/vault-cluster-lb.yml
 
 export VAULT_TOKEN=$(vault operator init | grep -i root | cut -d " " -f 4)
 

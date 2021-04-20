@@ -1,0 +1,10 @@
+---
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/traefik/pki/vault_cluster_lb.crt
+        keyFile: /etc/traefik/pki/vault_cluster_lb.key
+  certificates:
+    - certFile: /etc/traefik/pki/vault_cluster_lb.crt
+      keyFile: /etc/traefik/pki/vault_cluster_lb.key

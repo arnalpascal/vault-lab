@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault-deployment-cluster-lb
+  labels:
+    app: vault-cluster-lb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vault-cluster-lb
+  template:
+    metadata:
+      labels:
+        app: vault-cluster-lb
+    spec:
+      containers:
+      - name: vault-cluster-lb
+        image: docker.io/traefik:v2.4.8
+        ports:
+          - containerPort: 8443
+            protocol: TCP
+            hostPort: 8443
+        securityContext:
+          seLinuxOptions:
+            level: "s0"
+        volumeMounts:
+        - mountPath: /etc/traefik
+          name: volume-vault-cluster-lb
+      volumes:
+      - name: volume-vault-cluster-lb
+        hostPath: 
+          path: /vagrant/cluster/vault_cluster_lb
+          type: Directory

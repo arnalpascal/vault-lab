@@ -1,0 +1,18 @@
+---
+http:
+  routers:
+    vault-router:
+      rule: "Host(`vault`)"
+      service: "vault-service"
+      tls: {}
+  services:
+    vault-service:
+      loadBalancer:
+        servers:
+          - url: "https://vault:8210/"
+          - url: "https://vault:8220/"
+          - url: "https://vault:8230/"
+        healthCheck:
+          path: /v1/sys/health
+          interval: "10s"
+          timeout: "3s"
