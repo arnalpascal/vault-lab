@@ -47,3 +47,6 @@ terraform init
 terraform validate
 terraform plan -out=tfplan
 terraform apply tfplan
+
+# Change port to the lb's one. Cannot be put before, because of healthcheck fail with not initialized cluster
+sed -i 's/8210/8443/g' $VAULT_CLUSTER_PATH/vault-cluster.env
