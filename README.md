@@ -13,11 +13,7 @@ This lab start a couple of Vault server :
 The cluster define one PKI with a root and a intermediate CA.
 
 To generate certificate / private key :
-1. Source the cluster environment variable file 
-```
-. cluster/vault-cluster.env
-```
-1. Use Vault to generate private keys and certficates
-```
-vault write -format=json pki-int/issue/pki-int-role common_name=test.org sans=other.org ip_sans=10.0.0.1
-```
+1. Source the cluster environment variable file  
+```. cluster/vault-cluster.env```
+1. Use Vault to generate private keys and certficates  
+```vault write -format=json pki-int/issue/pki-int-role common_name=test.org sans=other.org ip_sans=10.0.0.1```
