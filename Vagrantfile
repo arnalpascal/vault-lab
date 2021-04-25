@@ -19,6 +19,7 @@ Vagrant.configure("2") do |config|
       p.memory = 2048
       p.nested = true
       p.graphics_type = "none"
+      p.qemu_use_session = false
     end
 
     v.vm.provision :ansible do |ansible|
